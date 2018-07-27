@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh "echo checkouting..."
+                git url: 'https://github.com/VladyslavStepanenko/expenses.git'
             }
         }
         stage('Build') {
