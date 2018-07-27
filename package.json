@@ -1,0 +1,12 @@
+{
+    "name": "expenses-manager-app",
+    "version": "1.0.0",
+    "description": "Expenses manager api",
+    "author": "Vlad Stepanenko",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {}
+  }
+  
