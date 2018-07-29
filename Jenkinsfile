@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout scm') {
             steps {
-                git url: 'https://github.com/VladyslavStepanenko/expenses.git'
+                checkout scm
             }
         }
         stage('Docker Build') {
