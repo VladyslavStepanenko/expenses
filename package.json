@@ -1,11 +1,11 @@
 {
   "name": "expenses-manager-app",
   "version": "1.0.0",
-  "description": "Expenses manager api",
+  "description": "A REST api for Expenses manager application",
   "author": "Vlad Stepanenko",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./bin/server.js"
   },
   "dependencies": {
     "debug": "^3.1.0",
