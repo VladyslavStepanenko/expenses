@@ -1,19 +1,22 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
+        stage('Checkout scm') {
             steps {
                 git url: 'https://github.com/VladyslavStepanenko/expenses.git'
             }
         }
-        stage('Build') {
+        stage('Docker Build') {
             steps {
-                sh "npm install"
+                sh "docker build -t vladstepanenko/expenses-manager ."
             }
         }
-        stage('Deploy') {
-            steps {
-                sh "npm start"
+        stage("Docker Push"){
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUsername')]) {
+                    sh "docker login -u ${env.dockerHubUsername} -p ${env.dockerHubPassword}"
+                    sh 'docker push vladstepanenko/expenses-manager:latest'
+                }
             }
         }
     }
