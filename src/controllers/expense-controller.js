@@ -32,10 +32,10 @@ exports.create = (req, res, next) => {
     let expense = new Expense(req.body);
     expense
         .save()
-        .then(x => {
+        .then(saved => {
             res.status(201).send({
                 status: "true",
-                id: -1 // TODO
+                id: saved._id
             });
         })
         .catch(e => {
