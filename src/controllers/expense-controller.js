@@ -2,17 +2,23 @@ const mongoose = require('mongoose');
 const Expense = mongoose.model('Expense');
 
 exports.findAll = (req, res, next) => {
-    res.status(500).send({
-        status: false,
-        message: "Not implemented"
-    });
+    Expense.find({})
+        .then(data => {
+            res.status(200).send({data});
+        })
+        .catch(e => {
+            res.status(400).send(e);
+        });
 };
 
 exports.findById = (req, res, next) => {
-    res.status(500).send({
-        status: false,
-        message: "Not implemented"
-    });
+    Expense.findById(req.params.id)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send(e);
+        });
 };
 
 exports.create = (req, res, next) => {
