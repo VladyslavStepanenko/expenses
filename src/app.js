@@ -11,6 +11,7 @@ mongoose.connect('mongodb://192.168.43.218:27017/expenses', { useNewUrlParser: t
 
 // Models
 const Expense = require('./models/expense');
+const User = require('./models/user');
 
 // Routers
 const expenseRoute = require('../src/routes/expense-route');
