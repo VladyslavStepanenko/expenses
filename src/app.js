@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://192.168.43.218:27017/expenses');
+mongoose.connect('mongodb://192.168.43.218:27017/expenses', { useNewUrlParser: true });
 
 // Models
 const Expense = require('./models/expense');

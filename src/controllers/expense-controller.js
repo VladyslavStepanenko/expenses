@@ -4,7 +4,11 @@ const Expense = mongoose.model('Expense');
 exports.findAll = (req, res, next) => {
     Expense.find({})
         .then(data => {
-            res.status(200).send({data});
+            res.status(200).send({
+                status: true,
+                expenses:data,
+                count: data.length
+            });
         })
         .catch(e => {
             res.status(400).send(e);
