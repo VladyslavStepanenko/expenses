@@ -47,9 +47,25 @@ exports.create = (req, res, next) => {
 };
 
 exports.edit = (req, res, next) => {
-    res.status(500).send({
-        status: false,
-        message: "Not implemented"
+    Expense.findByIdAndUpdate(req.params.id, {
+        $set: {
+            tag: req.body.tag,
+            merchantName: req.body.merchantName,
+            total: req.body.total,
+            time: req.body.time,
+            paymentType: req.body.paymentType,
+            photoUrl: req.body.photoUrl
+        }
+    }).then(x => {
+        res.status(200).send({
+            status: true,
+            id:x._id
+        });
+    }).catch(e => {
+        res.status(400).send({
+            status: false,
+            data:e
+        });
     });
 };
 
