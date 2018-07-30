@@ -11,7 +11,10 @@ exports.findAll = (req, res, next) => {
             });
         })
         .catch(e => {
-            res.status(400).send(e);
+            res.status(400).send({
+                status: false,
+                errors: e
+            });
         });
 };
 
@@ -24,7 +27,10 @@ exports.findById = (req, res, next) => {
             });
         })
         .catch(e => {
-            res.status(400).send(e);
+            res.status(400).send({
+                status: false,
+                errors: e
+            });
         });
 };
 
@@ -41,7 +47,7 @@ exports.create = (req, res, next) => {
         .catch(e => {
             res.status(400).send({
                 status:"false",
-                data: e
+                errors: e
             });
         });
 };
@@ -64,14 +70,22 @@ exports.edit = (req, res, next) => {
     }).catch(e => {
         res.status(400).send({
             status: false,
-            data:e
+            errors:e
         });
     });
 };
 
 exports.remove = (req, res, next) => {
-    res.status(500).send({
-        status: false,
-        message: "Not implemented"
-    });
+    Expense.findByIdAndRemove(req.params.id)
+        .then(x => {
+            res.status(200).send({
+                status: true
+            });
+        })
+        .catch(e => {
+            res.status(400).send({
+                status: false,
+                errors: e
+            });
+        });
 };
