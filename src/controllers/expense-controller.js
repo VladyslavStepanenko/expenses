@@ -1,55 +1,48 @@
-// Simple storage
-var expenses = [];
+const mongoose = require('mongoose');
+const Expense = mongoose.model('Expense');
 
-function findById(id) {
-    return expenses.find(id);
-}
-
-function add(expense) {
-    expenses.push(expense);
-}
-
-function edit(expense) {
-    expenses[expense.id] = expense;
-}
-
-exports.getAll = (req, res, next) => {
-    res.status(200).send({
-        status:"ok",
-        expenses:expenses
+exports.findAll = (req, res, next) => {
+    res.status(500).send({
+        status: false,
+        message: "Not implemented"
     });
 };
 
-exports.find = (req, res, next) => {
-    const id = req.params.id;
-    let expense = findById(id);
-    res.status(200).send({
-        status:"ok",
-        expense:expense
+exports.findById = (req, res, next) => {
+    res.status(500).send({
+        status: false,
+        message: "Not implemented"
     });
 };
 
 exports.create = (req, res, next) => {
-    let expense = req.body;
-    add(expense);
-    res.status(201).send({
-        status:"saved",
-        id:expenses.findIndex(expense)
-    });
+    let expense = new Expense(req.body);
+    expense
+        .save()
+        .then(x => {
+            res.status(201).send({
+                status: "true",
+                id: -1 // TODO
+            });
+        })
+        .catch(e => {
+            res.status(400).send({
+                status:"false",
+                data: e
+            });
+        });
 };
 
 exports.edit = (req, res, next) => {
-    const id = req.params.id;
-    let expense = req.body;
-    edit(expense);
-    res.status(201).send({
-        status:"edited"
+    res.status(500).send({
+        status: false,
+        message: "Not implemented"
     });
 };
 
 exports.remove = (req, res, next) => {
-    const id = req.params.id;
-    res.status(200).send({
-        status:"deleted"
+    res.status(500).send({
+        status: false,
+        message: "Not implemented"
     });
 };

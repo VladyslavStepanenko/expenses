@@ -6,10 +6,14 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+// Connect to MongoDB
+mongoose.connect('mongodb://192.168.43.218:27017/expenses');
+
+// Models
+const Expense = require('./models/expense');
+
 // Routers
 const expenseRoute = require('../src/routes/expense-route');
-
-mongoose.connect('mongodb://192.168.43.218:27017/expenses');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
