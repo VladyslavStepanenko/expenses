@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
-const Expense = mongoose.model('Expense');
+const repository = require('../repositories/expense-repository');
 
-exports.findAll = (req, res, next) => {
-    Expense.find({})
+exports.getAll = (req, res, next) => {
+        repository.findAll()
         .then(data => {
             res.status(200).send({
                 status: true,
@@ -18,8 +17,8 @@ exports.findAll = (req, res, next) => {
         });
 };
 
-exports.findById = (req, res, next) => {
-    Expense.findById(req.params.id)
+exports.getById = (req, res, next) => {
+        repository.findById(req.params.id)
         .then(data => {
             res.status(200).send({
                 status: true,
@@ -35,9 +34,7 @@ exports.findById = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
-    let expense = new Expense(req.body);
-    expense
-        .save()
+    repository.add(req.body)
         .then(saved => {
             res.status(201).send({
                 status: "true",
@@ -53,30 +50,22 @@ exports.create = (req, res, next) => {
 };
 
 exports.edit = (req, res, next) => {
-    Expense.findByIdAndUpdate(req.params.id, {
-        $set: {
-            tag: req.body.tag,
-            merchantName: req.body.merchantName,
-            total: req.body.total,
-            time: req.body.time,
-            paymentType: req.body.paymentType,
-            photoUrl: req.body.photoUrl
-        }
-    }).then(x => {
-        res.status(200).send({
-            status: true,
-            id:x._id
+    repository.update(req.params.id, req.body)
+        .then(x => {
+            res.status(200).send({
+                status: true,
+                id:x._id
+            });
+        }).catch(e => {
+            res.status(400).send({
+                status: false,
+                errors:e
+            });
         });
-    }).catch(e => {
-        res.status(400).send({
-            status: false,
-            errors:e
-        });
-    });
 };
 
-exports.remove = (req, res, next) => {
-    Expense.findByIdAndRemove(req.params.id)
+exports.delete = (req, res, next) => {
+    repository.remove(req.params.id)
         .then(x => {
             res.status(200).send({
                 status: true

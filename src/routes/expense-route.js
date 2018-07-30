@@ -4,10 +4,10 @@ const express = require('express');
 const controller = require('../controllers/expense-controller');
 const router = express.Router();
 
-router.get('/', controller.findAll);
-router.get('/:id', controller.findById);
+router.get('/', controller.getAll);
+router.get('/:id', controller.getById);
 router.post('/', controller.create);
 router.put('/:id', controller.edit);
-router.delete('/:id', controller.remove);
+router.delete('/:id', controller.delete);
 
 module.exports = router;
