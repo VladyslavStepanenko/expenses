@@ -18,7 +18,10 @@ exports.findAll = (req, res, next) => {
 exports.findById = (req, res, next) => {
     Expense.findById(req.params.id)
         .then(data => {
-            res.status(200).send(data);
+            res.status(200).send({
+                status: true,
+                expense: data
+            });
         })
         .catch(e => {
             res.status(400).send(e);
