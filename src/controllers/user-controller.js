@@ -22,7 +22,7 @@ exports.getProfile = (req, res, next) => {
         .then(user => {
             res.status(200).send({
                 status: true,
-                data: user
+                user: user
             });
         })
         .catch(e => {
@@ -38,15 +38,26 @@ exports.authenticate = (req, res, next) => {
         email: req.body.email,
         password: req.body.password
     }).then(user => {
+        if(!user) {
+            res.status(404).send({
+                status: false,
+                error: 'User not found'
+            });
+        }
         // generate token
         const token = authHelper.generateToken({
             email: user.email,
             password: user.password
         });
 
+        const tokenData = authHelper.decodeToken(token);
+
         res.status(200).send({
             status: true,
-            token: token
+            accessToken: {
+                value: token,
+                expiresAt: tokenData.exp
+            }
         });
     }).catch(e => {
         res.status(500).send({

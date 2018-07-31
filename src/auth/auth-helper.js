@@ -7,6 +7,25 @@ exports.generateToken = (data) => {
 }
 
 exports.decodeToken = (token) => {
-    let data = await jwt.verify(token, SALT_KEY);
+    let data = jwt.verify(token, SALT_KEY);
     return data;
+}
+
+exports.authorize = (req, res, next) => {
+    let token = req.headers['x-access-token'];
+    if(!token) {
+        res.status(401).send({
+            status: false,
+            message: 'No token provided'
+        });
+    }
+    jwt.verify(token, SALT_KEY, (err, decoded) => {
+        if(err) {
+            res.status(401).send({
+                status: false,
+                message: 'Invalid token'
+            }); 
+        }
+        next();
+    });
 }
