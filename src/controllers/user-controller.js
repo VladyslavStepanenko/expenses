@@ -1,5 +1,5 @@
 const repository = require('../repositories/user-repository');
-const jwt = require('jsonwebtoken');
+const authHelper = require('../auth/auth-helper');
 
 exports.register = (req, res, next) => {
     repository.add(req.body)
@@ -34,19 +34,15 @@ exports.getProfile = (req, res, next) => {
 }
 
 exports.authenticate = (req, res, next) => {
-    console.log(req.body.email);
-    console.log(req.body.password);
     repository.authenticateByCredentials({
         email: req.body.email,
         password: req.body.password
     }).then(user => {
-        console.log(user.email);
-        console.log(user.password); 
         // generate token
-        const token = jwt.sign({
+        const token = authHelper.generateToken({
             email: user.email,
             password: user.password
-        }, 'lalalalala', { expiresIn: '1d' });
+        });
 
         res.status(200).send({
             status: true,

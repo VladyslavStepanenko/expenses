@@ -11,8 +11,6 @@ exports.findById = (id) => {
 }
 
 exports.authenticateByCredentials = (credentials) => {
-    console.log(`repository---->${credentials.email}`);
-    console.log(`repository---->${credentials.password}`);
     return User.findOne({
         email: credentials.email,
         password: credentials.password
