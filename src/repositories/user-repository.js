@@ -9,3 +9,12 @@ exports.add = (data) => {
 exports.findById = (id) => {
     return User.findOne({ _id: id }, 'username email password');
 }
+
+exports.authenticateByCredentials = (credentials) => {
+    console.log(`repository---->${credentials.email}`);
+    console.log(`repository---->${credentials.password}`);
+    return User.findOne({
+        email: credentials.email,
+        password: credentials.password
+    });
+}
