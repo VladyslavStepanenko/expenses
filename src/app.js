@@ -12,11 +12,11 @@ mongoose.connect(config.connectionString, { useNewUrlParser: true });
 
 // Models
 const Expense = require('./models/expense');
-const User = require('./models/user');
+const Account = require('./models/account');
 
 // Routers
 const expenseRoute = require('./routes/expense-route');
-const accountRoute = require('./routes/user-route');
+const accountRoute = require('./routes/account-route');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

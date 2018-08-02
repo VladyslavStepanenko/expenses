@@ -42,7 +42,7 @@ describe('Expenses test', () => {
             total: 3,
             paymentType: "Cash",
             category: '5b631164e7179a073344c956',
-            user: "5b631106e7179a073344c928"
+            account: "5b636ca2fb6fc072a40eca06"
         });
 
         before((done) => {
@@ -78,7 +78,7 @@ describe('Expenses test', () => {
                     total: 3,
                     paymentType: "Cash",
                     category: '5b631164e7179a073344c956',
-                    user: "5b631106e7179a073344c928"
+                    account: "5b636ca2fb6fc072a40eca06"
                 })
                 .then(res => {
                     expect(res).to.have.status(201);
@@ -98,7 +98,7 @@ describe('Expenses test', () => {
             paymentType: "Cash",
             photoUrl: "old_photo",
             category: '5b631164e7179a073344c956',
-            user: "5b631106e7179a073344c928"
+            account: "5b636ca2fb6fc072a40eca06"
         });
 
         before((done) => {
@@ -135,7 +135,7 @@ describe('Expenses test', () => {
             paymentType: "Cash",
             photoUrl: "old_photo",
             category: '5b631164e7179a073344c956',
-            user: "5b631106e7179a073344c928"
+            account: "5b636ca2fb6fc072a40eca06"
         });
 
         before((done) => {

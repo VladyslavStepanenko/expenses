@@ -14,7 +14,7 @@ const schema = new Schema({
         type: Number,
         required: true
     },
-    time: {
+    created_at: {
         type: Date,
         default: Date.now
     },
@@ -31,9 +31,9 @@ const schema = new Schema({
         ref: 'Category',
         required: true
     },
-    user: {
+    account: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Account',
         required: true
     }
 });

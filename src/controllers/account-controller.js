@@ -33,7 +33,7 @@ exports.getProfile = (req, res, next) => {
         });
 }
 
-exports.authenticate = (req, res, next) => {
+exports.login = (req, res, next) => {
     repository.authenticateByCredentials({
         email: req.body.email,
         password: req.body.password
