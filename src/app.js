@@ -21,7 +21,7 @@ const userRoute = require('./routes/user-route');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/expenses', expenseRoute);
-app.use('/users', userRoute);
+app.use('/api/expenses', expenseRoute);
+app.use('/api/account', userRoute);
 
 module.exports = app;

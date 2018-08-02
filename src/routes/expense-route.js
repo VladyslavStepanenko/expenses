@@ -1,5 +1,3 @@
-'use strict'; // what is it?
-
 const express = require('express');
 const controller = require('../controllers/expense-controller');
 const router = express.Router();

@@ -4,7 +4,7 @@ const authHelper = require('../auth/auth-helper');
 const router = express.Router();
 
 router.post('/register', controller.register);
-router.get('/:id/profile', authHelper.authorize, controller.getProfile);
-router.post('/auth', controller.authenticate)
+router.get('/profile', authHelper.authorize, controller.getProfile);
+router.post('/login', controller.authenticate);
 
 module.exports = router;
