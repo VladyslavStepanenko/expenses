@@ -1,9 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const SALT_KEY = 'lalalala'
-
 exports.generateToken = (data) => {
-    return jwt.sign(data, SALT_KEY, { expiresIn: '1d' });
+    return jwt.sign(data, global.SALT_KEY, { expiresIn: '1d' });
 }
 
 exports.decodeToken = (token) => {

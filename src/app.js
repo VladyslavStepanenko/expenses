@@ -3,11 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://192.168.43.218:27017/expenses', { useNewUrlParser: true });
+mongoose.connect(config.connectionString, { useNewUrlParser: true });
 
 // Models
 const Expense = require('./models/expense');
