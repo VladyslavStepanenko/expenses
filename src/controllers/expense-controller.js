@@ -51,10 +51,10 @@ exports.create = (req, res, next) => {
 
 exports.edit = (req, res, next) => {
     repository.update(req.params.id, req.body)
-        .then(x => {
+        .then(updated => {
             res.status(200).send({
                 status: true,
-                id:x._id
+                expense: updated
             });
         }).catch(e => {
             res.status(400).send({
@@ -67,9 +67,7 @@ exports.edit = (req, res, next) => {
 exports.delete = (req, res, next) => {
     repository.remove(req.params.id)
         .then(x => {
-            res.status(200).send({
-                status: true
-            });
+            res.status(204).send();
         })
         .catch(e => {
             res.status(400).send({

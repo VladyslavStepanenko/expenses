@@ -17,13 +17,10 @@ exports.add = (data) => {
 exports.update = (id, data) => {
     return Expense.findByIdAndUpdate(id, {
         $set: {
-            tag: data.tag,
-            merchantName: data.merchantName,
-            total: data.total,
-            time: data.time,
-            paymentType: data.paymentType,
             photoUrl: data.photoUrl
-        }
+        },
+    }, {
+        new: true
     });
 }
 

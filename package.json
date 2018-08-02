@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./bin/server.js",
-    "test": "mocha ./src/test --timeout 10000"
+    "test": "mocha ./src/test"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
