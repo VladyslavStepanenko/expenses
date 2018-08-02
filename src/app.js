@@ -16,12 +16,12 @@ const User = require('./models/user');
 
 // Routers
 const expenseRoute = require('./routes/expense-route');
-const userRoute = require('./routes/user-route');
+const accountRoute = require('./routes/user-route');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/expenses', expenseRoute);
-app.use('/api/account', userRoute);
+app.use('/api/account', accountRoute);
 
 module.exports = app;

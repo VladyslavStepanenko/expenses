@@ -1,4 +1,4 @@
-const repository = require('../repositories/user-repository');
+const repository = require('../repositories/account-repository');
 const authHelper = require('../auth/auth-helper');
 
 exports.register = (req, res, next) => {
@@ -19,10 +19,10 @@ exports.register = (req, res, next) => {
 
 exports.getProfile = (req, res, next) => {
     repository.findById(req.params.id)
-        .then(user => {
+        .then(account => {
             res.status(200).send({
                 status: true,
-                user: user
+                account: account
             });
         })
         .catch(e => {
@@ -37,8 +37,8 @@ exports.authenticate = (req, res, next) => {
     repository.authenticateByCredentials({
         email: req.body.email,
         password: req.body.password
-    }).then(user => {
-        if(!user) {
+    }).then(account => {
+        if(!account) {
             res.status(404).send({
                 status: false,
                 error: 'User not found'
@@ -46,8 +46,8 @@ exports.authenticate = (req, res, next) => {
         }
         // generate token
         const token = authHelper.generateToken({
-            email: user.email,
-            password: user.password
+            email: account.email,
+            password: account.password
         });
 
         const tokenData = authHelper.decodeToken(token);

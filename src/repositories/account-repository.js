@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
-const User = mongoose.model('User');
+const Account = mongoose.model('Account');
 
 exports.add = (data) => {
-    let user = new User(data);
-    return user.save();
+    let acc = new Account(data);
+    return acc.save();
 }
 
 exports.findById = (id) => {
-    return User.findOne({ _id: id }, 'username email password');
+    return Account.findOne({ _id: id }, 'username email password');
 }
 
 exports.authenticateByCredentials = (credentials) => {
-    return User.findOne({
+    return Account.findOne({
         email: credentials.email,
         password: credentials.password
     });
