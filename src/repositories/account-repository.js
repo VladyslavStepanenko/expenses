@@ -7,12 +7,12 @@ exports.add = (data) => {
 }
 
 exports.findById = (id) => {
-    return Account.findOne({ _id: id }, 'username email password');
+    return Account.findOne({ _id: id });
 }
 
-exports.authenticateByCredentials = (credentials) => {
+exports.findByCredentials = (credentials) => {
     return Account.findOne({
-        email: credentials.email,
+        username: credentials.username,
         password: credentials.password
     });
 }

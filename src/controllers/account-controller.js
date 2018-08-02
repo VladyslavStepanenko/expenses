@@ -3,66 +3,60 @@ const authHelper = require('../auth/auth-helper');
 
 exports.register = (req, res, next) => {
     repository.add(req.body)
-        .then(x => {
+        .then(saved => {
             res.status(201).send({
-                status: true,
-                id: x._id
+                account:saved
             });
         })
         .catch(e => {
             res.status(400).send({
-                status: false,
-                errors: e
-            });
-        });
-}
-
-exports.getProfile = (req, res, next) => {
-    repository.findById(req.params.id)
-        .then(account => {
-            res.status(200).send({
-                status: true,
-                account: account
-            });
-        })
-        .catch(e => {
-            res.status(400).send({
-                status: false,
                 errors: e
             });
         });
 }
 
 exports.login = (req, res, next) => {
-    repository.authenticateByCredentials({
-        email: req.body.email,
+    repository.findByCredentials({
+        username: req.body.username,
         password: req.body.password
     }).then(account => {
         if(!account) {
-            res.status(404).send({
-                status: false,
-                error: 'User not found'
+            res.status(403).send({
+                message: 'Bad credentials'
+            });
+        } 
+        else {
+            // generate token
+            const token = authHelper.generateToken({
+                id: account._id,
+                username: account.username,
+                password: account.password
+            });
+
+            const tokenData = authHelper.decodeToken(token);
+
+            res.status(200).send({
+                token: token
             });
         }
-        // generate token
-        const token = authHelper.generateToken({
-            email: account.email,
-            password: account.password
-        });
-
-        const tokenData = authHelper.decodeToken(token);
-
-        res.status(200).send({
-            status: true,
-            accessToken: {
-                value: token,
-                expiresAt: tokenData.exp
-            }
-        });
     }).catch(e => {
         res.status(500).send({
-            status: false,
             errors: e
         });
     });
+}
+
+exports.getProfile = (req, res, next) => {
+    let accountId = authHelper.decodeToken(req.get('x-access-token')).id;
+    repository.findById(accountId)
+        .then(account => {
+            res.status(200).send({
+                account: account
+            });
+        })
+        .catch(e => {
+            res.status(400).send({
+                errors: e
+            });
+        });
 }
