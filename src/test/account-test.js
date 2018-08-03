@@ -62,6 +62,22 @@ describe('Account test', () => {
                     done();
                 });
         });
+
+        it('should return an error', (done) => {
+            chai.request(app)
+                .post('/api/account/register')
+                .send({
+                    username: 'a',
+                    password: 'oerhoiutnoertjrotjoieajrtlrjijerotjnrvtviojrrrrrrrrrrrrrrrrrrrrrrrrrrrrraetl;rsvdts;t',
+                    email: 'invalid_email'
+                }).then(res => {
+                    console.warn(res.body);
+                    expect(res).to.be.status(400);
+                    expect(res.body.errors).to.be.an('array');
+                    expect(res.body.errors).to.be.not.empty;
+                    done();
+                });
+        });
     });
 
     describe('GET /account', () => {
