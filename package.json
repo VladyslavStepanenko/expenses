@@ -1,7 +1,7 @@
 {
-  "name": "expenses-manager-app",
+  "name": "expenses-api",
   "version": "1.0.0",
-  "description": "A REST api for Expenses manager application",
+  "description": "REST api for Expenses tracker application",
   "author": "Vlad Stepanenko",
   "main": "server.js",
   "scripts": {

@@ -15,9 +15,9 @@ exports.register = (req, res, next) => {
     validationContract.isRequired('Email', req.body.email, 'Email is required');
     validationContract.isEmail('Email', req.body.email, 'Invalid email');
 
+    let errors = [];
+
     if(!validationContract.isValid()) {
-        console.log('is invalid');
-        errors = [];
         validationContract.errors().forEach(item => {
             errors.push({
                 field: item.field,
@@ -30,7 +30,6 @@ exports.register = (req, res, next) => {
         });
     } 
     else {
-        console.log('is valid');
         repository.add(req.body)
         .then(saved => {
             res.status(201).send({
@@ -38,8 +37,11 @@ exports.register = (req, res, next) => {
             });
         })
         .catch(e => {
-            res.status(500).send({
-                errors: e
+            errors.push({
+                message: "This username already in use"
+            });
+            res.status(400).send({
+                errors: errors
             });
         });
     }

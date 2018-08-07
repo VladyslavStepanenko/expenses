@@ -1,7 +1,7 @@
 const http = require('http');
 const app = require('../src/app');
 
-const hostname = "0.0.0.0";
+const hostname = "localhost";
 const port = normalizePort(process.env.PORT || '3000');
 
 app.set('port', port);
