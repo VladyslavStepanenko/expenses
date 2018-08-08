@@ -18,13 +18,13 @@ ValidationContract.prototype.isEmail = (field, value, message) => {
 }
 
 ValidationContract.prototype.hasMinLen = (field, value, min, message) => {
-    if(!value || value.length < min) {
+    if(value.length < min) {
         errors.push({ field: field, message: message });
     }
 }
 
 ValidationContract.prototype.hasMaxLen = (field, value, max, message) => {
-    if(!value || value.length > max) {
+    if(value.length > max) {
         errors.push({ field: field, message: message });
     }
 }

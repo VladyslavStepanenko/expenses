@@ -1,18 +1,16 @@
+const mongoose = require('mongoose');
+const Account = mongoose.model('Account');
+
 const repository = require('../repositories/account-repository');
 const authHelper = require('../auth/auth-helper');
 const ValidationContract = require('../validators/fluent-validator');
 
 exports.register = (req, res, next) => {
     let validationContract = new ValidationContract();
-    validationContract.isRequired('Username', req.body.username, 'Username is required');
     validationContract.hasMinLen('Username', req.body.username, 4, 'Username should be at least 4 characters');
     validationContract.hasMaxLen('Username', req.body.username, 20, 'Username should not be more than 20 characters');
-
-    validationContract.isRequired('Password', req.body.password, 'Password is required');
     validationContract.hasMinLen('Password', req.body.password, 4, 'Password should be at least 4 characters');
     validationContract.hasMaxLen('Password', req.body.password, 20, 'Password should not be more than 25 characters');
-
-    validationContract.isRequired('Email', req.body.email, 'Email is required');
     validationContract.isEmail('Email', req.body.email, 'Invalid email');
 
     let errors = [];
@@ -20,7 +18,6 @@ exports.register = (req, res, next) => {
     if(!validationContract.isValid()) {
         validationContract.errors().forEach(item => {
             errors.push({
-                field: item.field,
                 message: item.message
             });
         });
@@ -30,13 +27,15 @@ exports.register = (req, res, next) => {
         });
     } 
     else {
-        repository.add(req.body)
+        const account = new Account(req.body);
+        account.save()
         .then(saved => {
             res.status(201).send({
                 account:saved
             });
         })
         .catch(e => {
+            console.log(e);
             errors.push({
                 message: "This username already in use"
             });
@@ -48,32 +47,58 @@ exports.register = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-    repository.findByCredentials({
-        username: req.body.username,
-        password: req.body.password
-    }).then(account => {
-        if(!account) {
-            res.status(403).send({
-                message: 'Bad credentials'
-            });
-        } 
-        else {
-            // generate token
-            const token = authHelper.generateToken({
-                id: account._id,
-                username: account.username,
-                password: account.password
-            });
+    let errors = [];
 
-            res.status(200).send({
-                token: token
+    Account.findOne({ username: req.body.username })
+        .then(account => {
+            if(!account) {
+                errors.push({
+                    message: 'Bad credentials'
+                });
+                return res.status(403).send({
+                    errors: errors
+                });
+            }
+
+            account.comparePassword(req.body.password, (err, isMatch) => {
+                if(err) {
+                    errors.push({
+                        message: 'Bad credentials'
+                    });
+                    return res.status(403).send({
+                        errors: errors
+                    });
+                }
+
+                if(!isMatch) {
+                    errors.push({
+                        message: 'Bad credentials'
+                    });
+                    return res.status(403).send({
+                        errors: errors
+                    });
+                }
+
+                const token = authHelper.generateToken({
+                    id: account._id,
+                    username: account.username,
+                    password: account.password
+                });
+    
+                res.status(200).send({
+                    account:account,
+                    token: token
+                });
             });
-        }
-    }).catch(e => {
-        res.status(500).send({
-            errors: e
+        }).catch(e => {
+            console.log(e);
+            errors.push({
+                message: "An error occured while logging in"
+            });
+            res.status(500).send({
+                errors: errors
+            });
         });
-    });
 }
 
 exports.getProfile = (req, res, next) => {

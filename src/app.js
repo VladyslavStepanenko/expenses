@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const logger = require('morgan');
 const config = require('./config');
 
@@ -16,7 +15,7 @@ const Account = require('./models/account');
 
 // Routers
 const expenseRoute = require('./routes/expense-route');
-const accountRoute = require('./routes/account-route');
+const accountRoute = require('./routes/AccountRoute');
 
 app.use(logger('combined'));
 app.use(bodyParser.json());
