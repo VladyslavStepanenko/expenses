@@ -10,18 +10,23 @@ exports.decodeToken = (token) => {
 }
 
 exports.authorize = (req, res, next) => {
-    let token = req.headers['x-access-token'];
+    const token = req.headers['x-access-token'];
     if(!token) {
         res.status(401).send({
             message: 'No token provided'
         });
     }
+    console.log(token);
+    
     jwt.verify(token, SALT_KEY, (err, decoded) => {
         if(err) {
             res.status(401).send({
                 message: 'Invalid token'
             }); 
         }
+        console.log(decoded);
+        
+        req.accountId = decoded.id;
         next();
     });
 }

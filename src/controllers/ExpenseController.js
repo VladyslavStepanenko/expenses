@@ -1,77 +1,80 @@
-const repository = require('../repositories/expense-repository');
+const mongoose = require('mongoose');
+const Expense = mongoose.model('Expense');
 
 exports.getAll = (req, res, next) => {
-        repository.findAll()
+    Expense.find({ account: req.accountId })
         .then(data => {
             res.status(200).send({
-                status: true,
-                expenses:data,
+                expenses: data,
                 count: data.length
             });
         })
         .catch(e => {
-            res.status(400).send({
-                status: false,
-                errors: e
+            res.status(500).send({
+                message: "An error occured trying to fetch the expenses"
             });
         });
 };
 
 exports.getById = (req, res, next) => {
-        repository.findById(req.params.id)
+    Expense.findById(req.params.id)
         .then(data => {
             res.status(200).send({
-                status: true,
                 expense: data
             });
         })
         .catch(e => {
             res.status(400).send({
-                status: false,
-                errors: e
+                error: {
+                    message: "?"
+                }
             });
         });
 };
 
 exports.create = (req, res, next) => {
-    repository.add(req.body)
+    const expense = new Expense(req.body);
+    expense.save()
         .then(saved => {
             res.status(201).send({
-                status: "true",
-                id: saved._id
+                expense: saved
             });
         })
         .catch(e => {
             res.status(400).send({
-                status:"false",
                 errors: e
             });
         });
 };
 
 exports.edit = (req, res, next) => {
-    repository.update(req.params.id, req.body)
+    Expense.findByIdAndUpdate(req.params.id, {
+        $set: {
+            tag: req.body.tag,
+            merchantName: req.body.merchantName,
+            total: req.body.total,
+            paymentType: req.body.paymentType,
+            category: req.body.category,
+            photoUrl: req.body.photoUrl
+        }, }, { new: true })
         .then(updated => {
             res.status(200).send({
-                status: true,
                 expense: updated
             });
         }).catch(e => {
             res.status(400).send({
-                status: false,
-                errors:e
+                errors: e
             });
         });
 };
 
 exports.delete = (req, res, next) => {
-    repository.remove(req.params.id)
+    Expense.findByIdAndRemove(req.params.id)
         .then(x => {
             res.status(204).send();
         })
         .catch(e => {
             res.status(400).send({
-                status: false,
                 errors: e
             });
         });

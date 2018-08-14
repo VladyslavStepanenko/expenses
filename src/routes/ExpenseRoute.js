@@ -1,8 +1,9 @@
 const express = require('express');
-const controller = require('../controllers/expense-controller');
+const controller = require('../controllers/ExpenseController');
+const auth = require('../auth/auth-helper');
 const router = express.Router();
 
-router.get('/', controller.getAll);
+router.get('/', auth.authorize, controller.getAll);
 router.get('/:id', controller.getById);
 router.post('/', controller.create);
 router.put('/:id', controller.edit);

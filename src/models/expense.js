@@ -15,8 +15,7 @@ const schema = new Schema({
         required: true
     },
     created_at: {
-        type: Date,
-        default: Date.now
+        type: Date
     },
     paymentType: {
         type: String,
@@ -36,6 +35,11 @@ const schema = new Schema({
         ref: 'Account',
         required: true
     }
+});
+
+schema.pre('save', function(next) {
+    this.created_at = new Date();
+    next();
 });
 
 module.exports = mongoose.model('Expense', schema);
